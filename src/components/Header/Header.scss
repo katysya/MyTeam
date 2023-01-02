@@ -1,0 +1,26 @@
+@import "../../styles/constants.scss";
+@import "../../styles/mixins.scss";
+
+.header {
+    @include flexRowAlign;
+    justify-content: space-between;
+    padding: 20px 65px 20px 45px;
+    background-color: $baseWhite;
+
+    &__profile {
+        @include flexRowAlign;
+        gap: 15px;
+
+        svg {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            transition: color 0.2s;
+
+            &:hover {
+                color: $baseHover;
+            }
+        }
+    }
+
+}

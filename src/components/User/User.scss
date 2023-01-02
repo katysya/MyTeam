@@ -1,0 +1,17 @@
+@import '../../styles/constants.scss';
+@import '../../styles/mixins.scss';
+
+.user {
+    @include flexRow;
+    gap: 10px;
+    transition: color 0.2s;
+    cursor: pointer;
+
+    .name {
+        margin: 0;
+    }
+
+    &:hover {
+        color: $baseHover;
+    }
+}

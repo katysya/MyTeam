@@ -2,8 +2,9 @@
 @import './styles/constants.scss';
 
 body {
-  background-color: $baseWhite;
-  font-family: $baseFont;
-  font-size: $baseSize;
-  color: $baseBlack;
+    background-color: $baseWhite;
+    font-family: $baseFont;
+    font-size: $baseSize;
+    color: $baseBlack;
+    min-height: 100vh;
 }

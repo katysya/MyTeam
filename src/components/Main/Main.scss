@@ -1,0 +1,7 @@
+@import "../../styles/constants.scss";
+@import "../../styles/mixins.scss";
+
+.main {
+    @include flexRow;
+    background-color: $baseWhite;
+}
