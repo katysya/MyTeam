@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Table from './components/Table/Table';
 import Row from './components/Row/Row';
 import Cell from './components/Cell/Cell';
@@ -6,6 +6,9 @@ import HeaderCell from './components/HeaderCell/HeaderCell';
 import './GridTable.scss';
 import HeaderTable from './components/HeaderTable/HeaderTable';
 import BodyTable from './components/BodyTable/BodyTable';
+import Search from '../Search/Search';
+import Parameter from '../Parameter/Parameter';
+import Pagination from '../Pagination/Pagination';
 
 interface Pagination {
   current: number;
@@ -49,14 +52,23 @@ export const GridTable: FC<GridTableProps> = ({ rows, columns }) => {
     return <HeaderCell key={index}>{el.label}</HeaderCell>;
   };
 
+  const [parameter, setParameter] = useState(5);
+
+  console.log(parameter);
+
   return (
     <div className="gridTable">
+      <div className="gridTable__specification">
+        <Parameter value={parameter} onChange={setParameter} />
+        <Search />
+      </div>
       <Table>
         <HeaderTable>
           <Row>{columns.map(renderHeaderCell)}</Row>
         </HeaderTable>
         <BodyTable>{rows.map(renderRow)}</BodyTable>
       </Table>
+      <Pagination />
     </div>
   );
 };

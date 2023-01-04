@@ -1,0 +1,19 @@
+@import '../../styles/constants.scss';
+@import '../../styles/mixins.scss';
+
+.parameter {
+    @include flexRowAlign;
+    gap: 10px;
+
+    &__count {
+        outline: none;
+        border-bottom: 1px solid $baseGray;
+        font-weight: 500;
+        font-size: 18px;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: $baseWhite;
+        }
+    }
+}
