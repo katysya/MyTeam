@@ -7,6 +7,11 @@
     padding: 20px 65px 20px 45px;
     background-color: $baseWhite;
 
+    &__logo {
+        width: 180px;
+        height: auto;
+    }
+
     &__profile {
         @include flexRowAlign;
         gap: 15px;

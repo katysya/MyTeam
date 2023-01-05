@@ -6,7 +6,6 @@ import HeaderCell from './components/HeaderCell/HeaderCell';
 import './GridTable.scss';
 import HeaderTable from './components/HeaderTable/HeaderTable';
 import BodyTable from './components/BodyTable/BodyTable';
-import Pagination from '../Pagination/Pagination';
 
 interface Pagination {
   current: number;
@@ -29,14 +28,14 @@ type RowData = Record<string, string | number>;
 interface GridTableProps {
   rows: RowData[];
   columns: Column[];
+  search?: string;
   pagination?: Pagination;
   onChangeSort?: (pagination: Pagination, sort: Sort) => void;
   className?: string;
 }
 
-export const GridTable: FC<GridTableProps> = ({ rows, columns }) => {
+export const GridTable: FC<GridTableProps> = ({ rows, columns, search }) => {
   const renderRow = (rowData: RowData, index: number) => {
-    console.log(rowData);
     return (
       <Row>
         {columns.map((column, index) => (
@@ -56,9 +55,16 @@ export const GridTable: FC<GridTableProps> = ({ rows, columns }) => {
         <HeaderTable>
           <Row>{columns.map(renderHeaderCell)}</Row>
         </HeaderTable>
-        <BodyTable>{rows.map(renderRow)}</BodyTable>
+        <BodyTable>
+          {rows.length === 0 ? (
+            <td className="notData" colSpan={columns.length}>
+              Данные не найдены...
+            </td>
+          ) : (
+            rows.map(renderRow)
+          )}
+        </BodyTable>
       </Table>
-      <Pagination />
     </div>
   );
 };

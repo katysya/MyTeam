@@ -20,9 +20,6 @@ const Dashboard = () => {
   const [parameter, setParameter] = useState(5); //Количество элементов для отображения
   const [search, setSearch] = useState(''); //поиск
 
-  console.log(`parameter = ${parameter}`);
-  console.log(`search = ${search}`);
-
   useEffect(() => {
     const getEmployees = async () => {
       const res = await axios.get(
@@ -39,7 +36,7 @@ const Dashboard = () => {
         <Parameter value={parameter} onChange={setParameter} />
         <Search value={search} onChange={setSearch} />
       </div>
-      <GridTable rows={employees} columns={columns} />
+      <GridTable rows={employees} columns={columns} search={search} />
     </div>
   );
 };
