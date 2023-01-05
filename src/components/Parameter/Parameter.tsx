@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import './Parameter.scss';
 
 interface ParameterProps {
@@ -9,24 +9,24 @@ interface ParameterProps {
 const Parameter: FC<ParameterProps> = ({ value, onChange }) => {
   const countRow = [5, 10, 15, 20];
 
-  const [selected, setSelected] = useState(countRow[0]);
-
   const parameterChange = (event: any) => {
-    setSelected(event.target.value);
-    onChange?.(selected);
+    onChange?.(event.target.value);
   };
 
   return (
-    <form className="parameter">
+    <div className="parameter">
       <label className="parameter__label">Показывать:</label>
-      <select value={selected} onChange={parameterChange}>
+      <select
+        className="parameter__count"
+        value={value}
+        onChange={parameterChange}>
         {countRow.map((option) => (
           <option key={option} value={option}>
             {option}
           </option>
         ))}
       </select>
-    </form>
+    </div>
   );
 };
 

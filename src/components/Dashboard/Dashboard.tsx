@@ -1,22 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { GridTable } from '../GridTable/GridTable';
+import Parameter from '../Parameter/Parameter';
+import Search from '../Search/Search';
 import './Dashboard.scss';
-
-interface employeesProps {
-  id: number;
-  name: string;
-  secondName: string;
-  patronymic: string;
-  position: string;
-  phone: string;
-  email: string;
-  address: string;
-  birth: string;
-  workDate: string;
-  status: string;
-  salary: number;
-}
 
 const Dashboard = () => {
   const columns = [
@@ -29,11 +16,18 @@ const Dashboard = () => {
     { field: 'status', label: 'Статус' },
   ];
 
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState([]); //Сотрудники
+  const [parameter, setParameter] = useState(5); //Количество элементов для отображения
+  const [search, setSearch] = useState(''); //поиск
+
+  console.log(`parameter = ${parameter}`);
+  console.log(`search = ${search}`);
 
   useEffect(() => {
     const getEmployees = async () => {
-      const res = await axios.get('http://localhost:5000/employees');
+      const res = await axios.get(
+        'http://localhost:5000/employees?_sort=secondName',
+      );
       setEmployees(res.data);
     };
     getEmployees();
@@ -41,6 +35,10 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
+      <div className="dashboard__specification">
+        <Parameter value={parameter} onChange={setParameter} />
+        <Search value={search} onChange={setSearch} />
+      </div>
       <GridTable rows={employees} columns={columns} />
     </div>
   );

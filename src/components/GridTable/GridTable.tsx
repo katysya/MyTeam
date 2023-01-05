@@ -6,8 +6,6 @@ import HeaderCell from './components/HeaderCell/HeaderCell';
 import './GridTable.scss';
 import HeaderTable from './components/HeaderTable/HeaderTable';
 import BodyTable from './components/BodyTable/BodyTable';
-import Search from '../Search/Search';
-import Parameter from '../Parameter/Parameter';
 import Pagination from '../Pagination/Pagination';
 
 interface Pagination {
@@ -32,7 +30,7 @@ interface GridTableProps {
   rows: RowData[];
   columns: Column[];
   pagination?: Pagination;
-  onChange?: (pagination: Pagination, sort: Sort) => void;
+  onChangeSort?: (pagination: Pagination, sort: Sort) => void;
   className?: string;
 }
 
@@ -52,16 +50,8 @@ export const GridTable: FC<GridTableProps> = ({ rows, columns }) => {
     return <HeaderCell key={index}>{el.label}</HeaderCell>;
   };
 
-  const [parameter, setParameter] = useState(5);
-
-  console.log(parameter);
-
   return (
     <div className="gridTable">
-      <div className="gridTable__specification">
-        <Parameter value={parameter} onChange={setParameter} />
-        <Search />
-      </div>
       <Table>
         <HeaderTable>
           <Row>{columns.map(renderHeaderCell)}</Row>

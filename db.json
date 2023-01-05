@@ -128,8 +128,8 @@
         },
         {
             "id": 10,
-            "name": "Булочкин",
-            "secondName": "Юрий",
+            "name": "Юрий",
+            "secondName": "Булочкин",
             "patronymic": "Алексеевич",
             "position": "Mobile developer",
             "phone": "89183425648",

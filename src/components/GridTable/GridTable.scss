@@ -3,9 +3,4 @@
 
 .gridTable {
 
-    &__specification {
-        @include flexRowAlign;
-        justify-content: space-between;
-        padding: 0 65px 15px 25px;
-    }
 }
