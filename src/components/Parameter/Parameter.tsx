@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import './Parameter.scss';
 
 interface ParameterProps {
-  value: number;
-  onChange: any;
+  value?: number;
+  onChange: (value: number) => void;
 }
 
 const Parameter: FC<ParameterProps> = ({ value, onChange }) => {

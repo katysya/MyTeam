@@ -1,29 +1,43 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import './Search.scss';
 
 interface searchProps {
-  value: string;
-  onChange: any;
+  onSubmit: (value: string) => void;
 }
 
-const Search: FC<searchProps> = ({ value, onChange }) => {
-  const searchChange = (event: any) => {
-    onChange?.(event.target.value);
+const Search: FC<searchProps> = ({ onSubmit }) => {
+  const [value, setValue] = useState('');
+
+  const onSearchChange = (event: any) => {
+    setValue?.(event.target.value);
+  };
+
+  const onClickSearch = () => {
+    onSubmit?.(value);
+  };
+
+  const onClickReset = () => {
+    onSubmit?.('');
   };
 
   return (
-    <form className="search">
+    <form onSubmit={(e) => e.preventDefault()} className="search">
       <div>
         <input
           type="text"
           maxLength={40}
           value={value}
           placeholder="Поиск..."
-          onChange={searchChange}
+          onChange={onSearchChange}
         />
-        <button className="submit" type="submit"></button>
+        <button
+          className="submit"
+          type="submit"
+          onClick={onClickSearch}></button>
       </div>
-      <button className="reset">Сбросить</button>
+      <button className="reset" onClick={onClickReset}>
+        Сбросить
+      </button>
     </form>
   );
 };

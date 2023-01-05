@@ -1,0 +1,44 @@
+@import '../../styles/constants.scss';
+@import '../../styles/mixins.scss';
+
+.pagination {
+    width: 100%;
+    margin-bottom: 60px;
+
+    &__list {
+        list-style-type: none;
+        margin: 0 auto;
+        @include flexRowAlign;
+    }
+
+    &__button {
+        width: 50px;
+        height: 50px;
+
+        img {
+            width: inherit;
+            height: inherit;
+        }
+    }
+
+    &__left {
+        transform: rotate(-180deg);
+    }
+
+    &__page {
+        display: block;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        color: $baseHover;
+        font-size: 24px;
+        border: 1px solid $lightGray;
+        border-radius: 8px;
+        padding: 6px;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: $baseWhite;
+        }
+    }
+}

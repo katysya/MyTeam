@@ -1,9 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { GridTable } from '../GridTable/GridTable';
+import { GridTable, GridSort, GridPagination } from '../GridTable/GridTable';
 import Parameter from '../Parameter/Parameter';
 import Search from '../Search/Search';
+import Pagination from '../Pagination/Pagination';
 import './Dashboard.scss';
+
+interface TableParameters {
+  pagination: GridPagination;
+  sort?: GridSort;
+  search?: string;
+}
 
 const Dashboard = () => {
   const columns = [
@@ -17,26 +24,67 @@ const Dashboard = () => {
   ];
 
   const [employees, setEmployees] = useState([]); //Сотрудники
-  const [parameter, setParameter] = useState(5); //Количество элементов для отображения
-  const [search, setSearch] = useState(''); //поиск
+  const [parameters, setParameters] = useState<TableParameters>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+
+  //Пагинация
+  // const [parameter, setParameter] = useState(5); //Количество элементов для отображения
+
+  const [search, setSearch] = useState(''); //Поиск
+
+  const getEmployeesData = async () => {
+    return await axios
+      .get('http://localhost:5000/employees', {
+        params: {
+          _page: parameters.pagination.current,
+          _limit: parameters.pagination.pageSize,
+          _sort: parameters.sort?.field,
+          _order: parameters.sort?.order,
+          q: parameters.search,
+        },
+      })
+      .then((response) => {
+        setEmployees(response.data);
+        setParameters({
+          ...parameters,
+          pagination: {
+            ...parameters.pagination,
+            total: 30,
+          },
+        });
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    const getEmployees = async () => {
-      const res = await axios.get(
-        'http://localhost:5000/employees?_sort=secondName',
-      );
-      setEmployees(res.data);
-    };
-    getEmployees();
-  }, []);
+    getEmployeesData();
+  }, [JSON.stringify(parameters)]);
+
+  const onChange = (
+    pagination: GridPagination,
+    sort?: GridSort,
+    search?: string,
+  ) => {
+    console.log({ pagination, sort, search });
+    setParameters({
+      pagination,
+      sort,
+      search,
+    });
+  };
 
   return (
     <div className="dashboard">
-      <div className="dashboard__specification">
-        <Parameter value={parameter} onChange={setParameter} />
-        <Search value={search} onChange={setSearch} />
-      </div>
-      <GridTable rows={employees} columns={columns} search={search} />
+      <GridTable
+        rows={employees}
+        columns={columns}
+        pagination={parameters.pagination}
+        onChange={onChange}
+      />
     </div>
   );
 };

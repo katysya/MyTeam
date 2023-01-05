@@ -6,19 +6,22 @@ import HeaderCell from './components/HeaderCell/HeaderCell';
 import './GridTable.scss';
 import HeaderTable from './components/HeaderTable/HeaderTable';
 import BodyTable from './components/BodyTable/BodyTable';
+import Parameter from '../Parameter/Parameter';
+import Search from '../Search/Search';
+import Pagination from '../Pagination/Pagination';
 
-interface Pagination {
+export interface GridPagination {
   current: number;
-  pageSize: number;
-  total: number;
+  pageSize?: number;
+  total?: number;
 }
 
-interface Sort {
+export interface GridSort {
   order: null | 'descend' | 'ascend';
   field: string;
 }
 
-interface Column {
+export interface GridColumn {
   field: string;
   label: string;
 }
@@ -27,14 +30,22 @@ type RowData = Record<string, string | number>;
 
 interface GridTableProps {
   rows: RowData[];
-  columns: Column[];
-  search?: string;
-  pagination?: Pagination;
-  onChangeSort?: (pagination: Pagination, sort: Sort) => void;
+  columns: GridColumn[];
+  pagination: GridPagination;
+  onChange?: (
+    pagination: GridPagination,
+    sort?: GridSort,
+    search?: string,
+  ) => void;
   className?: string;
 }
 
-export const GridTable: FC<GridTableProps> = ({ rows, columns, search }) => {
+export const GridTable: FC<GridTableProps> = ({
+  rows,
+  columns,
+  pagination,
+  onChange,
+}) => {
   const renderRow = (rowData: RowData, index: number) => {
     return (
       <Row>
@@ -45,12 +56,46 @@ export const GridTable: FC<GridTableProps> = ({ rows, columns, search }) => {
     );
   };
 
-  const renderHeaderCell = (el: Column, index: number) => {
+  const renderHeaderCell = (el: GridColumn, index: number) => {
     return <HeaderCell key={index}>{el.label}</HeaderCell>;
+  };
+
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState<GridSort>();
+
+  const onChangePageSize = (value: number) => {
+    onChange?.(
+      {
+        ...pagination,
+        pageSize: value,
+      },
+      sort,
+      search,
+    );
+  };
+
+  const onChangePage = (value: number) => {
+    onChange?.(
+      {
+        ...pagination,
+        current: value,
+      },
+      sort,
+      search,
+    );
+  };
+
+  const onSubmitSearch = (value: string) => {
+    onChange?.(pagination, sort, value);
+    setSearch(value);
   };
 
   return (
     <div className="gridTable">
+      <div className="gridTable__specification">
+        <Parameter value={pagination?.pageSize} onChange={onChangePageSize} />
+        <Search onSubmit={onSubmitSearch} />
+      </div>
       <Table>
         <HeaderTable>
           <Row>{columns.map(renderHeaderCell)}</Row>
@@ -65,6 +110,11 @@ export const GridTable: FC<GridTableProps> = ({ rows, columns, search }) => {
           )}
         </BodyTable>
       </Table>
+      <Pagination
+        value={pagination?.current}
+        total={pagination?.total}
+        onChange={onChangePage}
+      />
     </div>
   );
 };
