@@ -6,10 +6,4 @@
     border-radius: 16px 0 0 0;
     background-color: #ffffff;
     padding: 15px 0 10px 0;
-
-    &__specification {
-        @include flexRowAlign;
-        justify-content: space-between;
-        padding: 0 65px 15px 25px;
-    }
 }

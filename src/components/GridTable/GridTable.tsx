@@ -24,6 +24,7 @@ export interface GridSort {
 export interface GridColumn {
   field: string;
   label: string;
+  sort: boolean;
 }
 
 type RowData = Record<string, string | number>;
@@ -48,7 +49,7 @@ export const GridTable: FC<GridTableProps> = ({
 }) => {
   const renderRow = (rowData: RowData, index: number) => {
     return (
-      <Row>
+      <Row className={'tableRow'}>
         {columns.map((column, index) => (
           <Cell key={column.field}>{rowData[column.field]}</Cell>
         ))}
@@ -57,7 +58,11 @@ export const GridTable: FC<GridTableProps> = ({
   };
 
   const renderHeaderCell = (el: GridColumn, index: number) => {
-    return <HeaderCell key={index}>{el.label}</HeaderCell>;
+    return (
+      <HeaderCell key={index} sort={el.sort}>
+        {el.label}
+      </HeaderCell>
+    );
   };
 
   const [search, setSearch] = useState('');

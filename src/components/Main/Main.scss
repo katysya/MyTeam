@@ -4,4 +4,5 @@
 .main {
     @include flexRow;
     background-color: $baseWhite;
+    min-height: 90vh;
 }

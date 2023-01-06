@@ -5,6 +5,12 @@
 
     margin-bottom: 40px;
 
+    &__specification {
+        @include flexRowAlign;
+        justify-content: space-between;
+        padding: 0 45px 15px 25px;
+    }
+
     .notData {
         padding: 20px 0;
         text-align: center;

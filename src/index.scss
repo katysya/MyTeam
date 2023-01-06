@@ -8,3 +8,21 @@ body {
     color: $baseBlack;
     min-height: 100vh;
 }
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $lightGray $baseWhite;
+  }
+  
+  *::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: $baseWhite;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: $lightGray;
+    border-radius: 30px;
+  }

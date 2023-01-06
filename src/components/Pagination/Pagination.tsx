@@ -22,9 +22,7 @@ const Pagination: FC<PaginationProps> = ({ value, total, onChange }) => {
           </button>
         </li>
         <li>
-          <a href="!#" className="pagination__page">
-            {value}
-          </a>
+          <span className="pagination__page">{value}</span>
         </li>
         <li>
           <button className="pagination__button" onClick={onRightButtonClick}>

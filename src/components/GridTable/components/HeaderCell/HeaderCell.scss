@@ -1,0 +1,40 @@
+@import '../../../../styles/constants.scss';
+@import '../../../../styles/mixins.scss';
+
+.headerCell {
+
+    &__data {
+        @include flexRowAlign;
+        gap: 8px;
+    }
+
+    &__img {
+        position: relative;
+        display: block;
+        width: 20px;
+        height: 20px;
+        transition: background-color 0.3s;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &::after {
+            content:"";
+            color: currentColor;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            transform: rotate(90deg);
+            background-image: url("../../../../img/GridTable/arrow.svg");
+        }
+
+        &:hover {
+            background-color: $baseGray;
+        }
+
+        &:active {
+            background-color: $basePurple; 
+        }
+    }
+}

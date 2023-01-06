@@ -17,5 +17,9 @@
         color: $baseBlack;
         margin-bottom: 10px;
         font-size: 18px;
+
+        &:hover {
+            color: $baseHover;
+        }
     }
 }

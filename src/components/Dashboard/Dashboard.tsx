@@ -1,9 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { GridTable, GridSort, GridPagination } from '../GridTable/GridTable';
-import Parameter from '../Parameter/Parameter';
-import Search from '../Search/Search';
-import Pagination from '../Pagination/Pagination';
 import './Dashboard.scss';
 
 interface TableParameters {
@@ -14,13 +11,13 @@ interface TableParameters {
 
 const Dashboard = () => {
   const columns = [
-    { field: 'secondName', label: 'Фамилия' },
-    { field: 'name', label: 'Имя' },
-    { field: 'patronymic', label: 'Отчество' },
-    { field: 'position', label: 'Должность' },
-    { field: 'email', label: 'Почта' },
-    { field: 'phone', label: 'Номер телефона' },
-    { field: 'status', label: 'Статус' },
+    { field: 'secondName', label: 'Фамилия', sort: true },
+    { field: 'name', label: 'Имя', sort: true },
+    { field: 'patronymic', label: 'Отчество', sort: true },
+    { field: 'position', label: 'Должность', sort: false },
+    { field: 'email', label: 'Почта', sort: true },
+    { field: 'phone', label: 'Номер телефона', sort: false },
+    { field: 'status', label: 'Статус', sort: true },
   ];
 
   const [employees, setEmployees] = useState([]); //Сотрудники
@@ -30,11 +27,6 @@ const Dashboard = () => {
       pageSize: 10,
     },
   });
-
-  //Пагинация
-  // const [parameter, setParameter] = useState(5); //Количество элементов для отображения
-
-  const [search, setSearch] = useState(''); //Поиск
 
   const getEmployeesData = async () => {
     return await axios

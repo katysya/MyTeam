@@ -17,6 +17,7 @@ const Search: FC<searchProps> = ({ onSubmit }) => {
   };
 
   const onClickReset = () => {
+    setValue('');
     onSubmit?.('');
   };
 
@@ -35,7 +36,7 @@ const Search: FC<searchProps> = ({ onSubmit }) => {
           type="submit"
           onClick={onClickSearch}></button>
       </div>
-      <button className="reset" onClick={onClickReset}>
+      <button className="search__reset" onClick={onClickReset}>
         Сбросить
       </button>
     </form>

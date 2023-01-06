@@ -4,7 +4,7 @@
 .header {
     @include flexRowAlign;
     justify-content: space-between;
-    padding: 20px 65px 20px 45px;
+    padding: 10px 45px 20px 45px;
     background-color: $baseWhite;
 
     &__logo {
