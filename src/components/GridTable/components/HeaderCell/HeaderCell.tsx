@@ -1,15 +1,23 @@
-import React, { FC, PropsWithChildren } from 'react';
+import cn from 'classnames';
+import React, { FC, PropsWithChildren, useState } from 'react';
 import './HeaderCell.scss';
 
 interface HeaderCellProps extends PropsWithChildren {
   sort: boolean;
+  onClick?: () => void;
 }
-const HeaderCell: FC<HeaderCellProps> = ({ children, sort }) => {
+const HeaderCell: FC<HeaderCellProps> = ({ children, onClick, sort }) => {
+  const [active, setActive] = useState(false);
+
   return sort ? (
     <th className="headerCell">
-      <div className="headerCell__data">
+      <div className="headerCell__data" onClick={onClick}>
         {children}
-        <span className="headerCell__img"></span>
+        <span
+          className={cn(
+            'headerCell__img',
+            active && 'headerCell__img active',
+          )}></span>
       </div>
     </th>
   ) : (

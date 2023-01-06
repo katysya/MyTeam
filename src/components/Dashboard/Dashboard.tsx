@@ -11,6 +11,7 @@ interface TableParameters {
 
 const Dashboard = () => {
   const columns = [
+    { field: 'additionally', label: '', sort: false },
     { field: 'secondName', label: 'Фамилия', sort: true },
     { field: 'name', label: 'Имя', sort: true },
     { field: 'patronymic', label: 'Отчество', sort: true },

@@ -9,6 +9,7 @@ import BodyTable from './components/BodyTable/BodyTable';
 import Parameter from '../Parameter/Parameter';
 import Search from '../Search/Search';
 import Pagination from '../Pagination/Pagination';
+import Arrow from '../../img/Cell/arrow.svg';
 
 export interface GridPagination {
   current: number;
@@ -17,7 +18,8 @@ export interface GridPagination {
 }
 
 export interface GridSort {
-  order: null | 'descend' | 'ascend';
+  // order: null | 'descend' | 'ascend';
+  order: 'descend';
   field: string;
 }
 
@@ -51,22 +53,40 @@ export const GridTable: FC<GridTableProps> = ({
     return (
       <Row className={'tableRow'}>
         {columns.map((column, index) => (
-          <Cell key={column.field}>{rowData[column.field]}</Cell>
+          <Cell key={column.field}>
+            {index === 0 ? (
+              <img src={Arrow} alt="Arrow" />
+            ) : (
+              rowData[column.field]
+            )}
+          </Cell>
         ))}
       </Row>
     );
   };
 
   const renderHeaderCell = (el: GridColumn, index: number) => {
+    const onSort = () => {
+      const value = {
+        order: 'descend' as const,
+        field: sort.field === el.field ? '' : el.field,
+      };
+      onChange?.(pagination, value, search);
+      setSort(value);
+    };
     return (
-      <HeaderCell key={index} sort={el.sort}>
+      <HeaderCell key={index} onClick={onSort} sort={el.sort}>
         {el.label}
       </HeaderCell>
     );
   };
 
   const [search, setSearch] = useState('');
-  const [sort, setSort] = useState<GridSort>();
+
+  const [sort, setSort] = useState<GridSort>({
+    order: 'descend',
+    field: '',
+  });
 
   const onChangePageSize = (value: number) => {
     onChange?.(

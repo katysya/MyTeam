@@ -1,11 +1,16 @@
 @import '../../../../styles/constants.scss';
 @import '../../../../styles/mixins.scss';
 
+.table>:not(caption)>*>* {
+    padding: 10px;
+}
+
 .headerCell {
 
     &__data {
         @include flexRowAlign;
         gap: 8px;
+        cursor: pointer;
     }
 
     &__img {
@@ -34,6 +39,10 @@
         }
 
         &:active {
+            background-color: $basePurple; 
+        }
+
+        &.active {
             background-color: $basePurple; 
         }
     }
