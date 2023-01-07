@@ -14,3 +14,24 @@
         background-color: $baseWhite;
     }
 }
+
+.information {
+
+
+    &__cell {
+        @include flexRow;
+        gap: 20px;
+        padding-left: 50px;
+    }
+
+    &__image {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+    }
+
+    &__data {
+        min-width: 500px;
+    }
+
+}

@@ -1,7 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { GridTable, GridSort, GridPagination } from '../GridTable/GridTable';
+import {
+  GridTable,
+  GridSort,
+  GridPagination,
+  RowData,
+} from '../GridTable/GridTable';
 import './Dashboard.scss';
+import Avatar from '../../img/GridTable/avatar.jpg';
 
 interface TableParameters {
   pagination: GridPagination;
@@ -22,7 +28,6 @@ const Dashboard = () => {
   ];
 
   const [employees, setEmployees] = useState([]); //Сотрудники
-  const [countTotal, setCountTotal] = useState(50);
   const [parameters, setParameters] = useState<TableParameters>({
     pagination: {
       current: 1,
@@ -30,18 +35,21 @@ const Dashboard = () => {
     },
   });
 
-  const getCountData = async () => {
-    return await axios
-      .get('http://localhost:5000/employees')
-      .then((response) => {
-        setCountTotal(response.data.length);
-      })
-      .catch((err) => console.log(err));
-  };
+  const renderActiveRow = (row: RowData) => (
+    <div className="information__cell">
+      <img className="information__image" src={Avatar} alt="Сотрудник" />
+      <div className="information__data">
+        <p>Адрес: {row['address']}</p>
+        <p>День рождения: {row['birth']}</p>
+        <p>Дата начала работы: {row['workDate']}</p>
+        <p>З/п: {row['salary']}</p>
+      </div>
+    </div>
+  );
 
   const getEmployeesData = async () => {
     return await axios
-      .get('http://localhost:5000/employees', {
+      .get('/employees', {
         params: {
           _page: parameters.pagination.current,
           _limit: parameters.pagination.pageSize,
@@ -51,23 +59,31 @@ const Dashboard = () => {
         },
       })
       .then((response) => {
-        console.log('сработала');
         setEmployees(response.data);
+        console.log(response.headers['X-Total-Count']);
         setParameters({
           ...parameters,
           pagination: {
             ...parameters.pagination,
-            total: Math.ceil(countTotal / parameters.pagination.pageSize),
+            total: Math.ceil(
+              Number(response.headers['x-total-count']) /
+                parameters.pagination.pageSize,
+            ),
           },
         });
+        console.log(parameters);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getEmployeesData();
-    getCountData();
-  }, [JSON.stringify(parameters)]);
+  }, [
+    parameters.pagination.current,
+    parameters.pagination.pageSize,
+    parameters.sort,
+    parameters.search,
+  ]);
 
   const onChange = (
     pagination: GridPagination,
@@ -89,6 +105,7 @@ const Dashboard = () => {
         columns={columns}
         pagination={parameters.pagination}
         onChange={onChange}
+        renderActiveRow={renderActiveRow}
       />
     </div>
   );

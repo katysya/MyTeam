@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import Table from './components/Table/Table';
 import Row from './components/Row/Row';
 import Cell from './components/Cell/Cell';
@@ -10,6 +10,7 @@ import Parameter from '../Parameter/Parameter';
 import Search from '../Search/Search';
 import Pagination from '../Pagination/Pagination';
 import Arrow from '../../img/Cell/arrow.svg';
+import cn from 'classnames';
 
 export interface GridPagination {
   current: number;
@@ -29,7 +30,7 @@ export interface GridColumn {
   sort: boolean;
 }
 
-type RowData = Record<string, string | number>;
+export type RowData = Record<string, string | number>;
 
 interface GridTableProps {
   rows: RowData[];
@@ -40,6 +41,7 @@ interface GridTableProps {
     sort?: GridSort,
     search?: string,
   ) => void;
+  renderActiveRow?: (row: RowData) => ReactNode;
   className?: string;
 }
 
@@ -48,20 +50,50 @@ export const GridTable: FC<GridTableProps> = ({
   columns,
   pagination,
   onChange,
+  renderActiveRow,
 }) => {
-  const renderRow = (rowData: RowData, index: number) => {
+  const [activeEmployee, setActiveEmployee] = useState([-1]);
+
+  const onClickActiveEmployee = (indexRow: number) => {
+    activeEmployee.indexOf(indexRow) === -1
+      ? setActiveEmployee([...activeEmployee, indexRow])
+      : setActiveEmployee(
+          activeEmployee.filter(
+            (_, i) => i !== activeEmployee.indexOf(indexRow),
+          ),
+        );
+  };
+
+  console.log(activeEmployee);
+
+  const renderRow = (rowData: RowData, indexRow: number) => {
     return (
-      <Row className={'tableRow'}>
-        {columns.map((column, index) => (
-          <Cell key={column.field}>
-            {index === 0 ? (
-              <img className="cell__img" src={Arrow} alt="Arrow" />
-            ) : (
-              rowData[column.field]
-            )}
-          </Cell>
-        ))}
-      </Row>
+      <BodyTable>
+        <Row className={'tableRow'}>
+          {columns.map((column, index) => (
+            <Cell key={column.field}>
+              {index === 0 ? (
+                <img
+                  className={cn(
+                    'cell__img',
+                    activeEmployee.includes(indexRow) && 'cell__img active',
+                  )}
+                  src={Arrow}
+                  onClick={() => onClickActiveEmployee(indexRow)}
+                  alt="Arrow"
+                />
+              ) : (
+                rowData[column.field]
+              )}
+            </Cell>
+          ))}
+        </Row>
+        {activeEmployee.includes(indexRow) && (
+          <Row>
+            <td colSpan={columns.length}>{renderActiveRow?.(rowData)}</td>
+          </Row>
+        )}
+      </BodyTable>
     );
   };
 
@@ -130,21 +162,23 @@ export const GridTable: FC<GridTableProps> = ({
         <HeaderTable>
           <Row>{columns.map(renderHeaderCell)}</Row>
         </HeaderTable>
-        <BodyTable>
-          {rows.length === 0 ? (
-            <td className="notData" colSpan={columns.length}>
-              Данные не найдены...
-            </td>
-          ) : (
-            rows.map(renderRow)
-          )}
-        </BodyTable>
+        {rows.length === 0 ? (
+          <td className="notData" colSpan={columns.length}>
+            Данные не найдены...
+          </td>
+        ) : (
+          rows.map(renderRow)
+        )}
       </Table>
-      <Pagination
-        value={pagination?.current}
-        total={pagination?.total}
-        onChange={onChangePage}
-      />
+      {pagination.total !== 0 && pagination.total !== undefined ? (
+        <Pagination
+          value={pagination?.current}
+          total={pagination?.total}
+          onChange={onChangePage}
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 };
