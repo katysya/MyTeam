@@ -13,7 +13,7 @@ import Arrow from '../../img/Cell/arrow.svg';
 
 export interface GridPagination {
   current: number;
-  pageSize?: number;
+  pageSize: number;
   total?: number;
 }
 
@@ -55,7 +55,7 @@ export const GridTable: FC<GridTableProps> = ({
         {columns.map((column, index) => (
           <Cell key={column.field}>
             {index === 0 ? (
-              <img src={Arrow} alt="Arrow" />
+              <img className="cell__img" src={Arrow} alt="Arrow" />
             ) : (
               rowData[column.field]
             )}
@@ -75,7 +75,12 @@ export const GridTable: FC<GridTableProps> = ({
       setSort(value);
     };
     return (
-      <HeaderCell key={index} onClick={onSort} sort={el.sort}>
+      <HeaderCell
+        key={index}
+        onClick={onSort}
+        sort={el.sort}
+        sortActive={sort.field}
+        elField={el.field}>
         {el.label}
       </HeaderCell>
     );

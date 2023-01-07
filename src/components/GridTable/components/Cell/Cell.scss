@@ -1,4 +1,14 @@
 .cell {
     position: relative;
     padding: 0;
+
+    &__img {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+
+        &.active {
+            transform: rotate(90deg);
+        }
+    }
 }

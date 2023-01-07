@@ -22,12 +22,22 @@ const Dashboard = () => {
   ];
 
   const [employees, setEmployees] = useState([]); //Сотрудники
+  const [countTotal, setCountTotal] = useState(50);
   const [parameters, setParameters] = useState<TableParameters>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
+
+  const getCountData = async () => {
+    return await axios
+      .get('http://localhost:5000/employees')
+      .then((response) => {
+        setCountTotal(response.data.length);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const getEmployeesData = async () => {
     return await axios
@@ -41,12 +51,13 @@ const Dashboard = () => {
         },
       })
       .then((response) => {
+        console.log('сработала');
         setEmployees(response.data);
         setParameters({
           ...parameters,
           pagination: {
             ...parameters.pagination,
-            total: 30,
+            total: Math.ceil(countTotal / parameters.pagination.pageSize),
           },
         });
       })
@@ -55,6 +66,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getEmployeesData();
+    getCountData();
   }, [JSON.stringify(parameters)]);
 
   const onChange = (

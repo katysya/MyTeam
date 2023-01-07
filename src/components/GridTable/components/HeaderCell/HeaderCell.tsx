@@ -1,14 +1,20 @@
 import cn from 'classnames';
-import React, { FC, PropsWithChildren, useState } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import './HeaderCell.scss';
 
 interface HeaderCellProps extends PropsWithChildren {
   sort: boolean;
   onClick?: () => void;
+  sortActive: string;
+  elField: string;
 }
-const HeaderCell: FC<HeaderCellProps> = ({ children, onClick, sort }) => {
-  const [active, setActive] = useState(false);
-
+const HeaderCell: FC<HeaderCellProps> = ({
+  children,
+  onClick,
+  sort,
+  sortActive,
+  elField,
+}) => {
   return sort ? (
     <th className="headerCell">
       <div className="headerCell__data" onClick={onClick}>
@@ -16,7 +22,7 @@ const HeaderCell: FC<HeaderCellProps> = ({ children, onClick, sort }) => {
         <span
           className={cn(
             'headerCell__img',
-            active && 'headerCell__img active',
+            sortActive === elField && 'headerCell__img active',
           )}></span>
       </div>
     </th>
