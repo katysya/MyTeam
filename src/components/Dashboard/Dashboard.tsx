@@ -49,7 +49,7 @@ const Dashboard = () => {
 
   const getEmployeesData = async () => {
     return await axios
-      .get('/employees', {
+      .get('https://my-json-server.typicode.com/katysya/MyTeam/employees', {
         params: {
           _page: parameters.pagination.current,
           _limit: parameters.pagination.pageSize,
