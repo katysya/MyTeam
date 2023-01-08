@@ -26,7 +26,7 @@ const Search: FC<searchProps> = ({ onSubmit }) => {
       <div>
         <input
           type="text"
-          maxLength={40}
+          maxLength={20}
           value={value}
           placeholder="Поиск..."
           onChange={onSearchChange}

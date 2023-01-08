@@ -49,7 +49,7 @@ const Dashboard = () => {
 
   const getEmployeesData = async () => {
     return await axios
-      .get('https://my-json-server.typicode.com/katysya/MyTeam/employees', {
+      .get(`${process.env.REACT_APP_BACKEND}/employees`, {
         params: {
           _page: parameters.pagination.current,
           _limit: parameters.pagination.pageSize,
@@ -60,7 +60,6 @@ const Dashboard = () => {
       })
       .then((response) => {
         setEmployees(response.data);
-        console.log(response.headers['X-Total-Count']);
         setParameters({
           ...parameters,
           pagination: {

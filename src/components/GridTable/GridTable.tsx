@@ -20,7 +20,7 @@ export interface GridPagination {
 
 export interface GridSort {
   // order: null | 'descend' | 'ascend';
-  order: 'descend';
+  order: null | string;
   field: string;
 }
 
@@ -100,8 +100,15 @@ export const GridTable: FC<GridTableProps> = ({
   const renderHeaderCell = (el: GridColumn, index: number) => {
     const onSort = () => {
       const value = {
-        order: 'descend' as const,
-        field: sort.field === el.field ? '' : el.field,
+        // order: 'descend' as const,
+        order:
+          el.field !== sort.field
+            ? 'desc'
+            : el.field === sort.field && sort.order === 'desc'
+            ? 'asc'
+            : null,
+        // field: sort.field === el.field && sort.order === 'descend' ? el.field : el.,
+        field: sort.field === el.field && sort.order === 'asc' ? '' : el.field,
       };
       onChange?.(pagination, value, search);
       setSort(value);
@@ -111,7 +118,7 @@ export const GridTable: FC<GridTableProps> = ({
         key={index}
         onClick={onSort}
         sort={el.sort}
-        sortActive={sort.field}
+        sortActive={sort}
         elField={el.field}>
         {el.label}
       </HeaderCell>
@@ -121,7 +128,7 @@ export const GridTable: FC<GridTableProps> = ({
   const [search, setSearch] = useState('');
 
   const [sort, setSort] = useState<GridSort>({
-    order: 'descend',
+    order: null,
     field: '',
   });
 

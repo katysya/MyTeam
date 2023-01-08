@@ -1,11 +1,12 @@
 import cn from 'classnames';
 import React, { FC, PropsWithChildren } from 'react';
+import { GridSort } from '../../GridTable';
 import './HeaderCell.scss';
 
 interface HeaderCellProps extends PropsWithChildren {
   sort: boolean;
   onClick?: () => void;
-  sortActive: string;
+  sortActive: GridSort;
   elField: string;
 }
 const HeaderCell: FC<HeaderCellProps> = ({
@@ -19,11 +20,22 @@ const HeaderCell: FC<HeaderCellProps> = ({
     <th className="headerCell">
       <div className="headerCell__data" onClick={onClick}>
         {children}
-        <span
-          className={cn(
-            'headerCell__img',
-            sortActive === elField && 'headerCell__img active',
-          )}></span>
+        <div className="headerCell__sort">
+          <span
+            className={cn(
+              'headerCell__img headerCell__img--ascend',
+              sortActive.field === elField &&
+                sortActive.order === 'asc' &&
+                'active',
+            )}></span>
+          <span
+            className={cn(
+              'headerCell__img headerCell__img--descend',
+              sortActive.field === elField &&
+                sortActive.order === 'desc' &&
+                'active',
+            )}></span>
+        </div>
       </div>
     </th>
   ) : (

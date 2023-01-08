@@ -9,15 +9,20 @@
 
     &__data {
         @include flexRowAlign;
-        gap: 8px;
+        gap: 12px;
         cursor: pointer;
+        transition: color 0.2s;
+
+        &:hover {
+            color: $lightGray;
+        }
     }
 
     &__img {
         position: relative;
         display: block;
-        width: 20px;
-        height: 20px;
+        width: 15px;
+        height: 15px;
         transition: background-color 0.3s;
         border-radius: 2px;
         cursor: pointer;
@@ -28,10 +33,17 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 20px;
-            height: 20px;
-            transform: rotate(90deg);
+            width: 15px;
+            height: 15px;
             background-image: url("../../../../img/GridTable/arrow.svg");
+        }
+
+        &--descend {
+            transform: rotate(90deg);
+        }
+
+        &--ascend {
+            transform: rotate(-90deg);
         }
 
         &:hover {
@@ -44,6 +56,13 @@
 
         &.active {
             background-color: $basePurple; 
+        }
+
+        &__sort {
+            display: flex;
+            flex-direction: column;
+            gap:1px;
+            align-items: center;
         }
     }
 }
