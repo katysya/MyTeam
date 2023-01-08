@@ -17,6 +17,7 @@ interface TableParameters {
 
 const Dashboard = () => {
   const columns = [
+    { field: 'id', label: 'ID', sort: true, hidden: true },
     { field: 'additionally', label: '', sort: false },
     { field: 'secondName', label: 'Фамилия', sort: true },
     { field: 'name', label: 'Имя', sort: true },
@@ -53,7 +54,7 @@ const Dashboard = () => {
         params: {
           _page: parameters.pagination.current,
           _limit: parameters.pagination.pageSize,
-          _sort: parameters.sort?.field,
+          _sort: parameters.sort?.field || 'id',
           _order: parameters.sort?.order,
           q: parameters.search,
         },

@@ -28,6 +28,7 @@ export interface GridColumn {
   field: string;
   label: string;
   sort: boolean;
+  hidden?: boolean;
 }
 
 export type RowData = Record<string, string | number>;
@@ -64,29 +65,31 @@ export const GridTable: FC<GridTableProps> = ({
         );
   };
 
-  console.log(activeEmployee);
-
   const renderRow = (rowData: RowData, indexRow: number) => {
     return (
       <BodyTable>
         <Row className={'tableRow'}>
-          {columns.map((column, index) => (
-            <Cell key={column.field}>
-              {index === 0 ? (
-                <img
-                  className={cn(
-                    'cell__img',
-                    activeEmployee.includes(indexRow) && 'cell__img active',
-                  )}
-                  src={Arrow}
-                  onClick={() => onClickActiveEmployee(indexRow)}
-                  alt="Arrow"
-                />
-              ) : (
-                rowData[column.field]
-              )}
-            </Cell>
-          ))}
+          {columns.map((column, index) =>
+            !column.hidden ? (
+              <Cell key={column.field}>
+                {index === 0 ? (
+                  <img
+                    className={cn(
+                      'cell__img',
+                      activeEmployee.includes(indexRow) && 'cell__img active',
+                    )}
+                    src={Arrow}
+                    onClick={() => onClickActiveEmployee(indexRow)}
+                    alt="Arrow"
+                  />
+                ) : (
+                  rowData[column.field]
+                )}
+              </Cell>
+            ) : (
+              ''
+            ),
+          )}
         </Row>
         {activeEmployee.includes(indexRow) && (
           <Row>
@@ -113,7 +116,7 @@ export const GridTable: FC<GridTableProps> = ({
       onChange?.(pagination, value, search);
       setSort(value);
     };
-    return (
+    return !el.hidden ? (
       <HeaderCell
         key={index}
         onClick={onSort}
@@ -122,6 +125,8 @@ export const GridTable: FC<GridTableProps> = ({
         elField={el.field}>
         {el.label}
       </HeaderCell>
+    ) : (
+      ''
     );
   };
 
