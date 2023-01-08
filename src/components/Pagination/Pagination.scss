@@ -36,3 +36,13 @@
         transform: rotate(-180deg);
     }
 }
+
+@media (max-width: $widthMobile){
+
+    .pagination {
+    
+        &__list {
+            margin: 0 0 0 auto;
+        }
+    }
+}

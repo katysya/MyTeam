@@ -18,3 +18,21 @@
         border-bottom: 1px solid $lightGray;
     }
 }
+
+@media (max-width: $widthMobile) {
+    .gridTable {
+    
+        &__specification {
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start;
+        }
+    
+        .notData {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            border-bottom: 1px solid $lightGray;
+        }
+    }
+}

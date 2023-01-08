@@ -27,5 +27,18 @@
             }
         }
     }
+}
 
+@media (max-width: $widthMobile) {
+    .header {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+        width: 100%;
+        background-color: transparent;
+
+        &__profile {
+            display: none;
+        }
+    }
 }
